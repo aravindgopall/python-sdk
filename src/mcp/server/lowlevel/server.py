@@ -380,11 +380,11 @@ class Server(Generic[LifespanResultT]):
         return decorator
 
     def list_tools(self):
-        def decorator(func: Callable[[], Awaitable[list[types.Tool]]]):
+        def decorator(func: Callable[[str | None], Awaitable[list[types.Tool]]]):
             logger.debug("Registering handler for ListToolsRequest")
 
-            async def handler(_: Any):
-                tools = await func()
+            async def handler(req: types.ListToolsRequest):
+                tools = await func(req.params.meta.group)
                 return types.ServerResult(types.ListToolsResult(tools=tools))
 
             self.request_handlers[types.ListToolsRequest] = handler

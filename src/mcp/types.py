@@ -47,7 +47,7 @@ class RequestParams(BaseModel):
         parameter is an opaque token that will be attached to any subsequent
         notifications. The receiver is not obligated to provide these notifications.
         """
-
+        group: str | None = None
         model_config = ConfigDict(extra="allow")
 
     meta: Meta | None = Field(alias="_meta", default=None)
